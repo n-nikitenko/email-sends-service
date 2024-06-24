@@ -1,0 +1,36 @@
+{% extends 'email_sends/base.html' %}
+
+{% block content %}
+
+{% if object_list|length %}
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">ФИО</th>
+        <th scope="col">email</th>
+        <th scope="col">Комментарий</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for client in object_list %}
+    <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>client.name</td>
+        <td>client.email</td>
+        <td>client.comment</td>
+        <td>
+            <a class="btn btn-primary" href="#" role="button">Редактировать</a>
+            <a class="btn btn-primary" href="#" role="button">Удалить</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+
+</table>
+{% else %}
+Пока нет зарегистрированных клиентов. <a class="btn btn-primary" href="#" role="button">Создать</a>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "email-sends-service"
+version = "0.1.0"
+description = ""
+authors = ["nnikitenko <ninanineliya@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+django = "4.x"
+psycopg2-binary = "^2.9.9"
+python-dotenv = "^1.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
