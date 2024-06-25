@@ -1,0 +1,22 @@
+{% extends 'email_sends/base.html' %}
+
+{% block content %}
+
+<div class="card col-6">
+    <div class="card-body">
+        <h5 class="card-title">
+            {{ object.name }}
+        </h5>
+        <h6 class="card-subtitle mb-2 text-muted">Email: {{ object.email }}</h6>
+        {% if object.comment %}
+        <div class="card-text">
+            Комментарий: {{ object.comment }}
+        </div>
+        {% endif %}
+        <div class="btn-group">
+            <a class="btn btn-primary" href="{% url 'email_sends:edit_client' object.id %}">Редактировать</a>
+            <a class="btn btn-primary" href="{% url 'email_sends:delete_client' object.id %}">Удалить</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

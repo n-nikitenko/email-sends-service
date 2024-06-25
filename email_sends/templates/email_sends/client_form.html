@@ -1,0 +1,28 @@
+{% extends 'email_sends/base.html' %}
+
+{% block content %}
+
+<div class="card col-6">
+    <div class="card-body">
+        <h5 class="card-title">
+            {% if object %}
+            Редактирование данных клиента
+            {% else %}
+            Создание клиента
+            {% endif %}</h5>
+        <div class="card-text">
+            <form method="post">{% csrf_token %}
+                {{ form.as_p }}
+                <a href="{% url 'email_sends:client_list' %}" class=" btn btn-outline-secondary">Отменить</a>
+                {% if object %}
+
+                <input type="submit" class="btn btn-primary" value="Сохранить">
+                {% else %}
+                <input type="submit" class="btn btn-primary" value="Создать">
+                {% endif %}
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
