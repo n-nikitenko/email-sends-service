@@ -8,7 +8,7 @@
         <div class="card" style="border:none">
             <div class="card-body">
                 <h5 class="card-title">Клиенты:</h5>
-                {% if object_list|length %}
+                {% if page_obj|length %}
                 <a class="btn btn-primary mb-2" href="{% url 'email_sends:create_client'%}"
                    role="button">Добавить</a>
                 <table class="table table-bordered">
@@ -22,7 +22,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for client in object_list %}
+                    {% for client in page_obj %}
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
                         <td>{{ client.name }}</td>
@@ -42,6 +42,30 @@
                     </tbody>
 
                 </table>
+                {% if page_obj.paginator.num_pages > 1 %}
+                <nav aria-label="Clients navigation">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                        <li class="page-item"><a class="page-link"
+                                                 href="?page={{ page_obj.previous_page_number }}" aria-label="Previous"
+                                                 title="Назад">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a></li>
+                        {% endif %}
+
+                        <li class="page-item current"><span class="current page-link"> Страница {{ page_obj.number }} из
+                    {{ page_obj.paginator.num_pages }}</span></li>
+                        {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}"
+                                                 aria-label="Next" title="Вперёд">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
                 {% else %}
                 Пока нет зарегистрированных клиентов. <a class="btn btn-primary"
                                                          href="{% url 'email_sends:create_client'%}"

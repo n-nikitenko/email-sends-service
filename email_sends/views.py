@@ -7,6 +7,7 @@ from email_sends.models import Client
 
 class ClientListView(ListView):
     model = Client
+    paginate_by = 10
 
 
 class ClientCreateView(CreateView):
