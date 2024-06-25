@@ -1,0 +1,1 @@
+from clients import  ClientDetailView, ClientCreateView, ClientListView, ClientUpdateView, ClientDeleteView
