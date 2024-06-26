@@ -1,7 +1,7 @@
-from django.utils import timezone
 from smtplib import SMTPSenderRefused
 
 from django.core.mail import send_mail
+from django.utils import timezone
 
 from config.settings import EMAIL_HOST_USER
 from email_sends.models import MailingSettings, MailingLog
@@ -15,7 +15,7 @@ def send_mailing(mailing: MailingSettings):
         """Создать или обновить лог рассылки"""
 
         try:
-            mailing_log = mailing.mailing_log.get()
+            mailing_log = mailing.mailing_log
         except MailingLog.DoesNotExist:
             mailing_log = None
 
@@ -24,7 +24,7 @@ def send_mailing(mailing: MailingSettings):
             mailing_log.save()
         else:
             MailingLog.objects.create(mailing=mailing, status=status)
-        return mailing.mailing_log.get()
+        return mailing.mailing_log
 
     if mailing.status == MailingSettings.CREATED:
         mailing.status = MailingSettings.STARTED
@@ -48,13 +48,13 @@ def send_mailing(mailing: MailingSettings):
 
 
 def process_mailings():
-    """выбирает все незавершенные рассылки и для каждой
+    """выбирает все незавершенные рассылки со временем начала не больше текущего и для каждой
     1. если подошло время завершения рассылки - она останавливается,
     2. если рассылка еще ни разу не отправлена - она отправляется,
     3. если прошел указанный период отправки рассылки - она отправляется"""
 
     mailings = MailingSettings.objects.filter(
-        status__in={MailingSettings.CREATED, MailingSettings.STARTED})
+        status__in={MailingSettings.CREATED, MailingSettings.STARTED}, start_at__lte=timezone.now())
     frequency_to_days = {MailingSettings.EVERY_DAY: 1, MailingSettings.EVERY_WEEK: 7,
                          MailingSettings.EVERY_MONTH: 30}
     for mailing in mailings:
@@ -68,7 +68,7 @@ def process_mailings():
                 break
 
         try:
-            mailing_log = mailing.mailing_log.get()
+            mailing_log = mailing.mailing_log
         except MailingLog.DoesNotExist:
             mailing_log = None
 

@@ -19,6 +19,7 @@
                         <th scope="col">Периодичность</th>
                         <th scope="col">Дата/время старта</th>
                         <th scope="col">Дата/время окончания</th>
+                        <th scope="col">Статус</th>
                         <th scope="col">Клиенты</th>
                         <th scope="col"></th>
                     </tr>
@@ -34,6 +35,7 @@
                             {{ mailing.stop_at }}
                             {% endif %}
                         </td>
+                        <td>{{ mailing.get_status_display }}</td>
                         <td>
                             {{ mailing.clients.all|join:', ' }}
                         </td>
