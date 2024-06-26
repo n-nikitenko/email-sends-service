@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'email_sends'
+    'email_sends',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -155,3 +156,7 @@ EMAIL_HOST_PASSWORD = os.getenv('DJANGO_EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
+
+CRONJOBS = [
+    ('*/1 * * * *', 'email_sends.cron.scheduled_mailings')
+]

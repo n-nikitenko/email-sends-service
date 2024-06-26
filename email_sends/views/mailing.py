@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 
 from email_sends.models import MailingSettings
+# from email_sends.services import process_mailing
 
 
 class MailingSettingsListView(ListView):
@@ -24,6 +25,12 @@ class MailingSettingsCreateView(CreateView):
         form.fields['stop_at'].widget = forms.DateTimeInput(format="%Y-%m-%d %H:%M", attrs={"type": "datetime-local"})
 
         return form
+
+    def form_valid(self, form):
+        if form.is_valid():
+            mailing = form.save()
+            # process_mailing(mailing)  # отправка рассылки при необходимости
+        return super().form_valid(form)
 
 
 class MailingSettingsUpdateView(UpdateView):

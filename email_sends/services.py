@@ -2,7 +2,6 @@ from smtplib import SMTPSenderRefused
 
 from django.core.mail import send_mail
 from django.utils import timezone
-
 from config.settings import EMAIL_HOST_USER
 from email_sends.models import MailingSettings, MailingLog
 
@@ -47,6 +46,35 @@ def send_mailing(mailing: MailingSettings):
         log.save()
 
 
+def process_mailing(mailing: MailingSettings):
+    """обработка одной рассылки"""
+
+    frequency_to_days = {MailingSettings.EVERY_DAY: 1, MailingSettings.EVERY_WEEK: 7,
+                         MailingSettings.EVERY_MONTH: 30}
+    now = timezone.now()
+    if mailing.stop_at:
+        if now >= mailing.stop_at:
+            # остановить рассылку
+            mailing.status = MailingSettings.FINISHED
+            mailing.save()
+            return
+
+    try:
+        mailing_log = mailing.mailing_log
+    except MailingLog.DoesNotExist:
+        mailing_log = None
+
+    if mailing_log:
+        if mailing_log.status == MailingLog.SUCCESS:
+            delta = now - mailing_log.last_sent
+            if delta.days >= frequency_to_days[mailing.frequency]:  # пора повторить отправку
+                send_mailing(mailing)
+        else:  # повторить отправку
+            send_mailing(mailing)
+    else:  # первая попытка отправки
+        send_mailing(mailing)
+
+
 def process_mailings():
     """выбирает все незавершенные рассылки со временем начала не больше текущего и для каждой
     1. если подошло время завершения рассылки - она останавливается,
@@ -55,28 +83,6 @@ def process_mailings():
 
     mailings = MailingSettings.objects.filter(
         status__in={MailingSettings.CREATED, MailingSettings.STARTED}, start_at__lte=timezone.now())
-    frequency_to_days = {MailingSettings.EVERY_DAY: 1, MailingSettings.EVERY_WEEK: 7,
-                         MailingSettings.EVERY_MONTH: 30}
+
     for mailing in mailings:
-        now = timezone.now()
-        if mailing.stop_at:
-            if now >= mailing.stop_at:
-                # остановить рассылку
-                mailing.status = MailingSettings.FINISHED
-                mailing.save()
-                break
-
-        try:
-            mailing_log = mailing.mailing_log
-        except MailingLog.DoesNotExist:
-            mailing_log = None
-
-        if mailing_log:
-            if mailing_log.status == MailingLog.SUCCESS:
-                delta = now - mailing_log.last_sent
-                if delta.days >= frequency_to_days[mailing.frequency]:  # пора повторить отправку
-                    send_mailing(mailing)
-            else:  # повторить отправку
-                send_mailing(mailing)
-        else:  # первая попытка отправки
-            send_mailing(mailing)
+        process_mailing(mailing)
