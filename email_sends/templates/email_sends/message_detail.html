@@ -1,0 +1,19 @@
+{% extends 'email_sends/base.html' %}
+
+{% block content %}
+
+<div class="card col-6">
+    <div class="card-body">
+        <h5 class="card-title">
+            Тема: {{ object.theme }}
+        </h5>
+        <div class="card-text">
+            {{ object.body }}
+        </div>
+        <div class="btn-group">
+            <a class="btn btn-primary" href="{% url 'email_sends:edit_message' object.id %}">Редактировать</a>
+            <a class="btn btn-primary" href="{% url 'email_sends:delete_message' object.id %}">Удалить</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

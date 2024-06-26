@@ -1,0 +1,87 @@
+{% extends 'email_sends/base.html' %}
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card" style="border:none">
+            <div class="card-body">
+                <h5 class="card-title">Рассылки:</h5>
+                {% if page_obj|length %}
+                <a class="btn btn-primary mb-2" href="{% url 'email_sends:create_mailing'%}"
+                   role="button">Добавить</a>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Название</th>
+                        <th scope="col">Периодичность</th>
+                        <th scope="col">Дата/время старта</th>
+                        <th scope="col">Дата/время окончания</th>
+                        <th scope="col">Клиенты</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for mailing in page_obj %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ mailing.name }}</td>
+                        <td>{{ mailing.get_frequency_display }}</td>
+                         <td>{{ mailing.start_at }}</td>
+                        <td>{% if mailing.stop_at %}
+                            {{ mailing.stop_at }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ mailing.clients.all|join:', ' }}
+                        </td>
+                        <td class="d-flex flex-wrap" style="gap: 2px">
+                            <a class="btn btn-primary" href="{% url 'email_sends:mailing_detail' mailing.id  %}"
+                               role="button">Подробнее</a>
+                            <a class="btn btn-primary" href="{% url 'email_sends:edit_mailing' mailing.id  %}"
+                               role="button">Редактировать</a>
+                            <a class="btn btn-primary" href="{% url 'email_sends:delete_mailing' mailing.id %}"
+                               role="button">Удалить</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+                {% if page_obj.paginator.num_pages > 1 %}
+                <nav aria-label="Mailings navigation">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+                        <li class="page-item"><a class="page-link"
+                                                 href="?page={{ page_obj.previous_page_number }}" aria-label="Previous"
+                                                 title="Назад">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a></li>
+                        {% endif %}
+
+                        <li class="page-item current"><span class="current page-link"> Страница {{ page_obj.number }} из
+                    {{ page_obj.paginator.num_pages }}</span></li>
+                        {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}"
+                                                 aria-label="Next" title="Вперёд">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+                {% else %}
+                Нет созданных рассылок. <a class="btn btn-primary"
+                                                         href="{% url 'email_sends:create_mailing'%}"
+                                                         role="button">Создать</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

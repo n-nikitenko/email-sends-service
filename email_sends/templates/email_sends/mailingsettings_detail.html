@@ -1,0 +1,49 @@
+{% extends 'email_sends/base.html' %}
+
+{% block content %}
+
+<div class="card col-6">
+    <div class="card-header">
+        <h5 class="card-title">
+            {{ object.name }}
+        </h5>
+
+    </div>
+    <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-muted">Дата/время начала: {{ object.start_at }}</h6>
+        {% if object.stop_at %}
+        <h6 class="card-subtitle mb-2 text-muted">Дата/время окончания: {{ object.stop_at }}</h6>
+        {% endif %}
+        <h6 class="card-subtitle mb-2 text-muted">Тема сообщения: {{ object.message.theme }}</h6>
+        </div>
+    <div class="card-header">
+        <h5 class="card-title">Текст сообщения:</h5>
+    </div>
+    <div class="card-body">
+
+        <div class="card-text">
+            {{ object.message.body }}
+        </div>
+
+
+    </div>
+    <div class="card-header">
+        <h5 class="card-title">Клиенты:</h5>
+    </div>
+    <ul class="list-group list-group-flush">
+        {% for client in object.clients.all %}
+        <li class="list-group-item">{{ client }}</li>
+        {% endfor %}
+    </ul>
+    <div class="card-body">
+        <div class="btn-group mt-2">
+            <a class="btn btn-primary" href="{% url 'email_sends:edit_mailing' object.id %}">Редактировать</a>
+            <a class="btn btn-primary" href="{% url 'email_sends:delete_mailing' object.id %}">Удалить</a>
+        </div>
+    </div>
+
+    <div class="card-footer text-muted mt-2">
+        Статус: '{{ object.get_status_display }}'
+    </div>
+</div>
+{% endblock %}
