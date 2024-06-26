@@ -73,7 +73,8 @@ class MailingLog(models.Model):
     last_sent = models.DateTimeField(auto_now_add=True, verbose_name="Дата/время последней попытки отправки")
     status = models.CharField(choices=MAILING_LOG_STATUS_CHOICES, max_length=200, verbose_name="Статус отправки")
     server_response = models.TextField(null=True, blank=True, verbose_name="Ответ почтового сервера")
-    mailing = models.ForeignKey(MailingSettings, on_delete=models.CASCADE, verbose_name="Рассылка")
+    mailing = models.OneToOneField(MailingSettings, on_delete=models.CASCADE, verbose_name="Рассылка",
+                                related_name="mailing_log")
 
     def __str__(self):
         return (f"{self.mailing.name}. Статус: {self.get_status_diplay()}. "

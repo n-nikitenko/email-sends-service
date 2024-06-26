@@ -26,8 +26,8 @@
                         <th scope="row">{{ forloop.counter }}</th>
                         <td>{{ log.last_sent }}</td>
                         <td>{{ log.mailing.name }}</td>
-                        <td>{{ log.mailing.clients|join:' ,' }}</td>
-                        <td>{{ log.get_status_diplay }}</td>
+                        <td>{{ log.mailing.clients.all|join:', ' }}</td>
+                        <td>{{ log.get_status_display }}</td>
                         <td>{% if log.server_response %}
                             {{ log.server_response }}
                             {% endif %}
