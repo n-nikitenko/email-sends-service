@@ -62,7 +62,6 @@ def process_mailings():
         if mailing.stop_at:
             if now >= mailing.stop_at:
                 # остановить рассылку
-                send_mailing(mailing)
                 mailing.status = MailingSettings.FINISHED
                 mailing.save()
                 break
