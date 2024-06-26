@@ -38,15 +38,19 @@
     <div class="container">
         <header class="d-flex justify-content-center py-3">
             <ul class="nav nav-pills">
-                <li class="nav-item"><a href="{% url 'email_sends:home' %}" class="nav-link" aria-current="page">Главная</a></li>
+                <li class="nav-item"><a href="{% url 'email_sends:home' %}" class="nav-link"
+                                        aria-current="page">Главная</a></li>
                 <li class="nav-item"><a href="{% url 'email_sends:client_list' %}" class="nav-link">Клиенты</a></li>
                 <li class="nav-item"><a href="{% url 'email_sends:message_list' %}" class="nav-link">Сообщения</a></li>
                 <li class="nav-item"><a href="{% url 'email_sends:mailing_list' %}" class="nav-link">Рассылки</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Отчеты</a></li>
+                <li class="nav-item"><a href="{% url 'email_sends:log_list' %}" class="nav-link">Отчёты</a></li>
             </ul>
         </header>
         <div class="container-fluid">
             {% block content %}
+            <div class="text-center">
+                Добро пожаловать на сайт сервиса управления email-рассылками.
+            </div>
             {% endblock %}
         </div>
     </div>

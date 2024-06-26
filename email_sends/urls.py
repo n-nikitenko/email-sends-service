@@ -5,7 +5,7 @@ from email_sends.apps import EmailSendsConfig
 from email_sends.views import ClientListView, ClientDetailView, ClientUpdateView, ClientDeleteView, ClientCreateView, \
     MessageListView, MessageDetailView, MessageUpdateView, MessageDeleteView, MessageCreateView, \
     MailingSettingsListView, MailingSettingsDetailView, MailingSettingsUpdateView, MailingSettingsDeleteView, \
-    MailingSettingsCreateView
+    MailingSettingsCreateView, MailingLogListView
 
 app_name = EmailSendsConfig.name
 
@@ -28,4 +28,6 @@ urlpatterns = [
     path('mailings/<int:pk>/edit/', MailingSettingsUpdateView.as_view(), name='edit_mailing'),
     path('mailings/<int:pk>/delete/', MailingSettingsDeleteView.as_view(), name='delete_mailing'),
     path('mailings/create/', MailingSettingsCreateView.as_view(), name='create_mailing'),
+
+    path('logs/', MailingLogListView.as_view(), name='log_list'),
 ]

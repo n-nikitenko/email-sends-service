@@ -7,29 +7,38 @@
     <div class="col-12">
         <div class="card" style="border:none">
             <div class="card-body">
-                <h5 class="card-title">Сообщения:</h5>
+                <h5 class="card-title">Отчеты:</h5>
                 {% if page_obj|length %}
-                <a class="btn btn-primary mb-2" href="{% url 'email_sends:create_message'%}"
-                   role="button">Добавить</a>
-                {% for message in page_obj %}
-                <div class="card col-6 mb-2">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            Тема: {{ message.theme }}
-                        </h5>
-                        <div class="card-text">
-                            {{ message.body }}
-                        </div>
-                        <a class="btn btn-primary"
-                           href="{% url 'email_sends:edit_message' message.id %}">Редактировать</a>
-                        <a class="btn btn-primary"
-                           href="{% url 'email_sends:delete_message' message.id %}">Удалить</a>
-                    </div>
-                </div>
-                {% endfor %}
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Дата/время последней отправки</th>
+                        <th scope="col">Название рассылки</th>
+                        <th scope="col">Клиенты</th>
+                        <th scope="col">Статус</th>
+                        <th scope="col">Ответ почтового сервера</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for log in page_obj %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ log.last_sent }}</td>
+                        <td>{{ log.mailing.name }}</td>
+                        <td>{{ log.mailing.clients|join:' ,' }}</td>
+                        <td>{{ log.get_status_diplay }}</td>
+                        <td>{% if log.server_response %}
+                            {{ log.server_response }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
 
+                </table>
                 {% if page_obj.paginator.num_pages > 1 %}
-                <nav aria-label="Messages navigation">
+                <nav aria-label="Logs navigation">
                     <ul class="pagination">
                         {% if page_obj.has_previous %}
                         <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
@@ -53,9 +62,7 @@
                 </nav>
                 {% endif %}
                 {% else %}
-                Нет созданных сообщений. <a class="btn btn-primary"
-                                            href="{% url 'email_sends:create_message'%}"
-                                            role="button">Создать</a>
+                Пока нет данных.
                 {% endif %}
             </div>
         </div>
