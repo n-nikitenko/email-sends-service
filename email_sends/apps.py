@@ -9,8 +9,8 @@ class EmailSendsConfig(AppConfig):
     name = 'email_sends'
     verbose_name = 'Рассылки'
 
-    def ready(self):
-        super(EmailSendsConfig, self).ready()
-        sleep(2)
-        call_command('crontab', 'add')
+    # def ready(self):
+    #     super(EmailSendsConfig, self).ready()
+    #     sleep(2)
+    #     call_command('crontab', 'add')
 
