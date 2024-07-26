@@ -17,6 +17,11 @@
                                                                  width="100" height="100" class="rounded-circle">
                 </button>
                 <span class="name mt-3"></span> <span class="idd">{{ object.email }}</span>
+                {% if user.is_manager %}
+                <span class="name mt-2"></span> <span class="idd">Менеджер</span>
+                {% else %}
+                <span class="name mt-3"></span> <span class="idd">Пользователь</span>
+                {% endif %}
 
                 {% if object.country %}
                 <div class="d-flex flex-row justify-content-center align-items-center gap-2">

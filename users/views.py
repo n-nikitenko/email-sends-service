@@ -1,12 +1,14 @@
 import secrets
 from smtplib import SMTPSenderRefused
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from django.views.generic import CreateView, FormView, UpdateView, DetailView
+from django.views.generic import CreateView, FormView, UpdateView, DetailView, ListView
 
 from config.settings import EMAIL_HOST_USER
 from users.forms import RegisterForm
@@ -119,3 +121,41 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class UserListView(LoginRequiredMixin, ListView):
+    """представление для отображения списка пользователей"""
+
+    model = User
+    paginate_by = 5
+
+    def get_queryset(self):
+        return super().get_queryset().exclude(id=self.request.user.id)
+
+    def get_context_data(self, **kwargs):
+        if self.request.user.is_manager:
+            return super().get_context_data(**kwargs)
+        raise PermissionDenied
+
+
+@login_required
+def lock_user(request, user_id):
+    """endpoint для блокировки пользователя"""
+
+    if request.user.has_perm('can_change_is_active') and request.user.id != user_id:
+        user = get_object_or_404(User, id=user_id)
+        user.is_active = False
+        user.save()
+        return redirect("users:user-list")
+    raise PermissionDenied
+
+@login_required
+def unlock_user(request, user_id):
+    """endpoint для разблокировки пользователя"""
+
+    if request.user.has_perm('can_change_is_active') and request.user.id != user_id:
+        user = get_object_or_404(User, id=user_id)
+        user.is_active = True
+        user.save()
+        return redirect("users:user-list")
+    raise PermissionDenied

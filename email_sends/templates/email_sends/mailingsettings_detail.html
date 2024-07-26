@@ -35,15 +35,27 @@
         <li class="list-group-item">{{ client }}</li>
         {% endfor %}
     </ul>
+    {% if object.creator == user or user.is_manager %}
     <div class="card-body">
         <div class="btn-group mt-2">
             <a class="btn btn-primary" href="{% url 'email_sends:edit_mailing' object.id %}">Редактировать</a>
+            {% if mailing.creator == user %}
             <a class="btn btn-primary" href="{% url 'email_sends:delete_mailing' object.id %}">Удалить</a>
+            {% endif %}
         </div>
     </div>
-
+    {% endif %}
     <div class="card-footer text-muted mt-2">
         Статус: '{{ object.get_status_display }}'
     </div>
+    {% if object.creator %}
+    <div class="card-footer text-muted mt-2">
+        Автор: '{{ object.creator }}'
+    </div>
+    {% else %}
+    <div class="card-footer text-muted mt-2">
+        Автор: аноним.
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

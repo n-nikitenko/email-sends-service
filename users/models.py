@@ -23,3 +23,8 @@ class User(AbstractUser):
     @property
     def is_manager(self):
         return self.groups.filter(name="managers").exists()
+
+    class Meta:
+        permissions = [
+            ('can_change_is_active', 'может блокировать пользователей')
+        ]

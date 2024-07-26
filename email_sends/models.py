@@ -1,11 +1,14 @@
 from django.db import models
 from django.utils.datetime_safe import datetime
 
+from users.models import User
+
 
 class Client(models.Model):
     name = models.CharField(max_length=200, verbose_name="ФИО")
     email = models.EmailField(unique=True, verbose_name="email")
     comment = models.CharField(max_length=200, null=True, blank=True, verbose_name="комментарий")
+    creator = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Создатель")
 
     def __str__(self):
         return f"{self.name} ({self.email})"
@@ -18,6 +21,7 @@ class Client(models.Model):
 class Message(models.Model):
     theme = models.CharField(max_length=200, verbose_name="Тема письма")
     body = models.TextField(verbose_name="Текст письма")
+    creator = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Создатель")
 
     def __str__(self):
         return f"{self.theme}"
@@ -56,6 +60,8 @@ class MailingSettings(models.Model):
     message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name="Сообщение для рассылки",
                                 related_name="mailing_settings")
 
+    creator = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Создатель")
+
     def __str__(self):
         return (f"{self.name}. Тема: {self.message.theme}, периодичность "
                 f"'{self.get_frequency_display()}'.")
@@ -63,6 +69,10 @@ class MailingSettings(models.Model):
     class Meta:
         verbose_name = "Рассылка"
         verbose_name_plural = "Рассылки"
+        permissions = [
+            ('can_change_status', 'может менять статус')
+        ]
+        ordering = ["id"]
 
 
 class MailingLog(models.Model):

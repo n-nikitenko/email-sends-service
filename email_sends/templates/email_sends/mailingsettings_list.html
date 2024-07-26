@@ -42,10 +42,14 @@
                         <td class="d-flex flex-wrap" style="gap: 2px">
                             <a class="btn btn-primary" href="{% url 'email_sends:mailing_detail' mailing.id  %}"
                                role="button">Подробнее</a>
+                            {% if mailing.creator == user or user.is_manager %}
                             <a class="btn btn-primary" href="{% url 'email_sends:edit_mailing' mailing.id  %}"
                                role="button">Редактировать</a>
+                            {% endif %}
+                            {% if mailing.creator == user %}
                             <a class="btn btn-primary" href="{% url 'email_sends:delete_mailing' mailing.id %}"
                                role="button">Удалить</a>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}

@@ -45,6 +45,9 @@
                 <li class="nav-item"><a href="{% url 'email_sends:message_list' %}" class="nav-link">Сообщения</a></li>
                 <li class="nav-item"><a href="{% url 'email_sends:mailing_list' %}" class="nav-link">Рассылки</a></li>
                 <li class="nav-item"><a href="{% url 'email_sends:log_list' %}" class="nav-link">Отчёты</a></li>
+                {% if user.is_manager %}
+                <li class="nav-item"><a href="{% url 'users:user-list' %}" class="nav-link">Пользователи</a></li>
+                {% endif %}
             </ul>
             <div class="col-md-3 text-end">
                 {% if user.is_authenticated %}
