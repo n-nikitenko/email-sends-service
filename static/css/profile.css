@@ -1,0 +1,79 @@
+
+        .profile.card {
+    width: 350px;
+    background-color: #efefef;
+    border: none;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.profile .image img {
+    transition: all 0.5s
+}
+
+.profile.card:hover .image img {
+    transform: scale(1.5)
+}
+
+.profile .btn-rounded {
+    height: 140px;
+    width: 140px;
+    border-radius: 50%
+}
+
+.profile .name {
+    font-size: 22px;
+    font-weight: bold
+}
+
+.profile .idd {
+    font-size: 14px;
+    font-weight: 600
+}
+
+.profile .idd1 {
+    font-size: 12px
+}
+
+.profile .number {
+    font-size: 22px;
+    font-weight: bold
+}
+
+.profile .follow {
+    font-size: 12px;
+    font-weight: 500;
+    color: #444444
+}
+
+.profile .btn1 {
+    height: 40px;
+    border: none;
+    background-color: #000;
+    color: #aeaeae;
+    font-size: 15px
+}
+
+.profile .text span {
+    font-size: 13px;
+    color: #545454;
+    font-weight: 500
+}
+
+.profile .icons i {
+    font-size: 19px
+}
+
+.profile hr .new1 {
+    border: 1px solid
+}
+
+.profile .join {
+    font-size: 14px;
+    color: #a0a0a0;
+    font-weight: bold
+}
+
+.profile .date {
+    background-color: #ccc
+}

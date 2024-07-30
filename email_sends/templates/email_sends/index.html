@@ -1,0 +1,42 @@
+{% extends 'email_sends/base.html' %}
+{% load media_path %}
+{% block content %}
+<ul class="list-group col-4">
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        Общее кол-во рассылок:
+        <span class="badge bg-primary rounded-pill">{{ mailings_count }}</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        Кол-во активных рассылок:
+        <span class="badge bg-primary rounded-pill">{{ active_mailings_count }}</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        Кол-во клиентов для рассылок:
+        <span class="badge bg-primary rounded-pill">{{ clients_count }}</span>
+    </li>
+</ul>
+
+
+<div class="row mb-2 mt-4">
+    {% if articles|length %}
+    <h5 class="card-title">Недавние статьи:</h5>
+    {% endif %}
+    {% for article in articles %}
+    <div class="col-md-6">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+                <strong class="d-inline-block mb-2 text-success">{{ article.title }}</strong>
+
+                <p class="mb-auto">{{ article.content|truncatechars:100 }}</p>
+
+                <a href="{% url 'blog:article_detail' article.id  %}" class="stretched-link">Просмотр</a>
+                <div class="mb-1 text-muted">Опубликована: {{ article.created_at }}</div>
+            </div>
+            <div class="col-auto d-none d-lg-block">
+                <img src="{{ article.preview | media_path }}" height="250" width="200"/>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

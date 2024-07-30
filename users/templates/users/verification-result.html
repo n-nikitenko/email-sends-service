@@ -1,0 +1,21 @@
+{% extends 'email_sends/base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-md-center">
+    <div class="col-6 col">
+        <div class="card">
+            <div class="card-body">
+                {% if is_error %}
+                <h5 class="card-subtitle danger">{{ title }}</h5>
+                <a class="btn btn-warning" href="{% url 'users:register'%}">Зарегистрироваться</a>
+                {% else %}
+                <h5 class="card-title text-success">{{ title }}</h5>
+                <a class="btn btn-primary" href="{% url 'users:login'%}">Войти</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
