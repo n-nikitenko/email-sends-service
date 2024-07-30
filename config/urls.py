@@ -19,12 +19,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from blog.apps import BlogConfig
 from users.apps import UsersConfig
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('email_sends.urls')),
     path('users/', include('users.urls', namespace=UsersConfig.name)),
+    path('blog/', include('blog.urls', namespace=BlogConfig.name)),
 ]
 
 if settings.DEBUG:

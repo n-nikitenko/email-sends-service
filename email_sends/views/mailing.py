@@ -7,6 +7,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DetailView, D
 
 from email_sends.forms import ManagerUpdateMailingSettingsForm
 from email_sends.models import MailingSettings, Message, Client
+from email_sends.services import process_mailing
 
 
 # from email_sends.services import process_mailing
@@ -61,7 +62,7 @@ class MailingSettingsCreateView(LoginRequiredMixin, CreateView):
             mailing = form.save()
             mailing.creator = self.request.user
             mailing.save()
-            # process_mailing(mailing)  # отправка рассылки при необходимости
+            process_mailing(mailing)  # отправка рассылки при необходимости
         return super().form_valid(form)
 
 

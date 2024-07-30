@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'email_sends',
     'django_crontab',
     'users',
+    'blog'
 ]
 
 MIDDLEWARE = [
@@ -164,3 +165,12 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 LOGIN_URL = "/users/login"
+
+CACHE_ENABLED = os.getenv('CACHE_ENABLED') == "True"
+if CACHE_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": os.getenv('REDIS_LOCATION'),
+        }
+    }

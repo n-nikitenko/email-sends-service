@@ -6,11 +6,12 @@ from email_sends.views import ClientListView, ClientDetailView, ClientUpdateView
     MessageListView, MessageDetailView, MessageUpdateView, MessageDeleteView, MessageCreateView, \
     MailingSettingsListView, MailingSettingsDetailView, MailingSettingsUpdateView, MailingSettingsDeleteView, \
     MailingSettingsCreateView, MailingLogListView
+from email_sends.views.home import home
 
 app_name = EmailSendsConfig.name
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name="email_sends/base.html"), name='home'),
+    path('', home, name='home'),
     path('clients/', ClientListView.as_view(), name='client_list'),
     path('clients/<int:pk>', ClientDetailView.as_view(), name='client_detail'),
     path('clients/<int:pk>/edit/', ClientUpdateView.as_view(), name='edit_client'),

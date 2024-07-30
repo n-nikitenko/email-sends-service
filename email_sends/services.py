@@ -3,7 +3,7 @@ from smtplib import SMTPSenderRefused
 from django.core.mail import send_mail
 from django.utils import timezone
 from config.settings import EMAIL_HOST_USER
-from email_sends.models import MailingSettings, MailingLog
+from email_sends.models import MailingSettings, MailingLog, Client
 
 
 def send_mailing(mailing: MailingSettings):
@@ -86,3 +86,15 @@ def process_mailings():
 
     for mailing in mailings:
         process_mailing(mailing)
+
+
+def get_mailings_count():
+    return MailingSettings.objects.count()
+
+
+def get_active_mailings_count():
+    return MailingSettings.objects.filter(status=MailingSettings.STARTED).count()
+
+
+def get_clients_count():
+    return Client.objects.count()
