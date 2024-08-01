@@ -149,6 +149,7 @@ def lock_user(request, user_id):
         return redirect("users:user-list")
     raise PermissionDenied
 
+
 @login_required
 def unlock_user(request, user_id):
     """endpoint для разблокировки пользователя"""

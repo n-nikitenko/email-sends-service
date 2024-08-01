@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 
@@ -89,8 +88,10 @@ class MailingSettingsUpdateView(LoginRequiredMixin, IsCouldBeChangedMixin, Updat
         """add date picker in forms"""
         form = super(MailingSettingsUpdateView, self).get_form(form_class)
         if self.object.creator == self.request.user:
-            form.fields['start_at'].widget = forms.DateTimeInput(format="%Y-%m-%d %H:%M", attrs={"type": "datetime-local"})
-            form.fields['stop_at'].widget = forms.DateTimeInput(format="%Y-%m-%d %H:%M", attrs={"type": "datetime-local"})
+            form.fields['start_at'].widget = forms.DateTimeInput(format="%Y-%m-%d %H:%M",
+                                                                 attrs={"type": "datetime-local"})
+            form.fields['stop_at'].widget = forms.DateTimeInput(format="%Y-%m-%d %H:%M",
+                                                                attrs={"type": "datetime-local"})
 
         return form
 

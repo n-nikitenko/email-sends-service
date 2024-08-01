@@ -84,7 +84,7 @@ class MailingLog(models.Model):
     status = models.CharField(choices=MAILING_LOG_STATUS_CHOICES, max_length=200, verbose_name="Статус отправки")
     server_response = models.TextField(null=True, blank=True, verbose_name="Ответ почтового сервера")
     mailing = models.OneToOneField(MailingSettings, on_delete=models.CASCADE, verbose_name="Рассылка",
-                                related_name="mailing_log")
+                                   related_name="mailing_log")
 
     def __str__(self):
         return (f"{self.mailing.name}. Статус: {self.get_status_diplay()}. "

@@ -52,10 +52,10 @@
                     </ul>
                 </nav>
                 {% endif %}
-                {% elif  user.is_authenticated %}
+                {% elif user.is_authenticated %}
                 У вас пока нет созданных сообщений. <a class="btn btn-primary"
-                                            href="{% url 'email_sends:create_message'%}"
-                                            role="button">Создать</a>
+                                                       href="{% url 'email_sends:create_message'%}"
+                                                       role="button">Создать</a>
                 {% else %}
                 Функционал доступен только зарегистрированным пользователям. Пожалуйста, авторизуйтесь.
                 {% endif %}

@@ -1,5 +1,4 @@
 from django.urls import path
-from django.views.generic import TemplateView
 
 from email_sends.apps import EmailSendsConfig
 from email_sends.views import ClientListView, ClientDetailView, ClientUpdateView, ClientDeleteView, ClientCreateView, \

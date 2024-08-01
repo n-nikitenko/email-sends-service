@@ -30,7 +30,7 @@
                         <th scope="row">{{ forloop.counter }}</th>
                         <td>{{ mailing.name }}</td>
                         <td>{{ mailing.get_frequency_display }}</td>
-                         <td>{{ mailing.start_at }}</td>
+                        <td>{{ mailing.start_at }}</td>
                         <td>{% if mailing.stop_at %}
                             {{ mailing.stop_at }}
                             {% endif %}
@@ -82,8 +82,8 @@
                 {% endif %}
                 {% else %}
                 У вас пока нет созданных рассылок. <a class="btn btn-primary"
-                                                         href="{% url 'email_sends:create_mailing'%}"
-                                                         role="button">Создать</a>
+                                                      href="{% url 'email_sends:create_mailing'%}"
+                                                      role="button">Создать</a>
                 {% endif %}
             </div>
         </div>

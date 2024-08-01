@@ -13,8 +13,10 @@
             <div class=" image d-flex flex-column justify-content-center align-items-center">
                 <h5><a class="text-secondary" href="{% url 'users:logout'%}">Выход</a></h5>
 
-                <button class="btn btn-rounded btn-dark rounded-circle"><img src="{{ object.avatar | media_path }}" alt="Аватар"
-                                                                 width="100" height="100" class="rounded-circle">
+                <button class="btn btn-rounded btn-dark rounded-circle"><img src="{{ object.avatar | media_path }}"
+                                                                             alt="Аватар"
+                                                                             width="100" height="100"
+                                                                             class="rounded-circle">
                 </button>
                 <span class="name mt-3"></span> <span class="idd">{{ object.email }}</span>
                 {% if user.is_manager %}
