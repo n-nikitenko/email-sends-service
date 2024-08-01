@@ -14,4 +14,3 @@ class EmailSendsConfig(AppConfig):
         sleep(2)
         call_command('crontab', 'remove')
         call_command('crontab', 'add')
-

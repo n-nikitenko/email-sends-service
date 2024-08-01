@@ -1,6 +1,5 @@
-from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
+from django.contrib.auth.forms import UserCreationForm
 from django.forms import BooleanField
-
 from django.forms.utils import ErrorList
 
 from users.models import User

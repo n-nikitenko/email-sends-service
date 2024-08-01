@@ -55,7 +55,7 @@ class UserCreateView(CreateView):
 def email_verification(request, email, token):
     """endpoint для подтверждения email пользователя"""
 
-    user = User.objects.get(email=email, token=token)
+    user = User.objects.filter(email=email, token=token).first()
     if user:
         user.is_active = True
         user.token = None
@@ -86,7 +86,8 @@ class PasswordResetView(FormView):
     def form_valid(self, form):
         if form.is_valid():
             email = form.cleaned_data['email']
-            user = User.objects.get(email=email)
+            user = User.objects.filter(email=email).first()
+
             if user:
                 new_password = secrets.token_urlsafe(16)
                 user.set_password(new_password)
@@ -148,6 +149,7 @@ def lock_user(request, user_id):
         user.save()
         return redirect("users:user-list")
     raise PermissionDenied
+
 
 @login_required
 def unlock_user(request, user_id):

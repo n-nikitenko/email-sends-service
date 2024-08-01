@@ -1,11 +1,11 @@
 import os
 
 from django.contrib.auth.models import Group
+from django.core import management
 from django.core.management import BaseCommand
 from django.core.management.commands import loaddata
 
 from config.settings import BASE_DIR
-from django.core import management
 
 
 class Command(BaseCommand):

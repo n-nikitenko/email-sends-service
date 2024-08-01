@@ -5,21 +5,21 @@
 
 <div class="container">
 
-<div class="row justify-content-md-center">
-    <div class="col-6">
-    <div class="card">
-        <img src="{{ object.preview | media_path }}" alt="" class="card-img-top" alt="...">
-    </div>
-</div>
-    <div class="col-6 col">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">{{ object.title }}</h5>
-            <p class="card-text">{{ object.content }}</p>
-            <h3>Кол-во просмотров: {{ object.views_count }}</h3>
+    <div class="row justify-content-md-center">
+        <div class="col-6">
+            <div class="card">
+                <img src="{{ object.preview | media_path }}" alt="" class="card-img-top" alt="...">
+            </div>
+        </div>
+        <div class="col-6 col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ object.title }}</h5>
+                    <p class="card-text">{{ object.content }}</p>
+                    <h3>Кол-во просмотров: {{ object.views_count }}</h3>
+                </div>
+            </div>
         </div>
     </div>
-    </div>
-</div>
 </div>
 {% endblock %}

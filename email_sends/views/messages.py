@@ -16,7 +16,6 @@ class MessageListView(ListView):
         return super().get_queryset().filter(creator=self.request.user)
 
 
-
 class MessageCreateView(LoginRequiredMixin, CreateView):
     model = Message
 
